@@ -61,7 +61,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                     }
 
                 //await turnContext.SendActivityAsync(replyActivity, cancellationToken);
-                await turnContext.SendActivityAsync(ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+                await turnContext.SendActivityAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
                 //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
 
             }
