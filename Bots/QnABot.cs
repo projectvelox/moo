@@ -38,7 +38,8 @@ namespace Microsoft.BotBuilderSamples.Bots
        {
             // Run the Dialog with the new message Activity.
             //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
-            activity = await result as Activity;
+
+            /*activity = await result as Activity;
             text = (activity.Text ?? string.Empty);
             url = "https://mooqnakb.azurewebsites.net/qnamaker/knowledgebases/bbb9cb8b-bef5-44b3-b3f0-c4fe30a4e63d/generateAnswer";
             httpContent = new StringContent("{'question':'" + text + "'}", Encoding.UTF8, "application/json");
@@ -48,7 +49,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             httpResponse = await httpClient.PostAsync(url, httpContent);
             httpResponseMessage = await httpResponse.Content.ReadAsStringAsync();
             httpResponseJson = JsonConvert.DeserializeObject(httpResponseMessage);
-            replyMessage = httpResponseJson.answers[0].answer;
+            replyMessage = httpResponseJson.answers[0].answer; */
             
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
@@ -74,10 +75,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                     }
 
                 //await turnContext.SendActivityAsync(replyActivity, cancellationToken);
-                //await turnContext.SendActivityAsync(turnContext, cancellationToken);
-
-
-                //await turnContext.SendActivityAsync(Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken), cancellationToken);
 
                 turnContext.SendActivityAsync(replyActivity, cancellationToken);
                 //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
