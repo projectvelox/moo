@@ -41,7 +41,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 if (turnContext.Activity.Type == ActivityTypes.Message)
                 {
                     // Replace with your own message
-                    IActivity replyActivity = MessageFactory.Text($"{ await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken)}");
+                    IActivity replyActivity = MessageFactory.Text($"{turnContext.Activity.Text}");
 
                     // Replace with your own condition for bot escalation
                     if (turnContext.Activity.Text.Equals("escalate", StringComparison.InvariantCultureIgnoreCase))
@@ -60,8 +60,12 @@ namespace Microsoft.BotBuilderSamples.Bots
                         OmnichannelBotClient.BridgeBotMessage(replyActivity);
                     }
 
-                    await turnContext.SendActivityAsync(replyActivity, cancellationToken);
-                }
+                    //await turnContext.SendActivityAsync(replyActivity, cancellationToken);
+                    await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+
+            }
+
+
         }
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
