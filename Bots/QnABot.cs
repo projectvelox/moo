@@ -38,10 +38,11 @@ namespace Microsoft.BotBuilderSamples.Bots
          {
             // Run the Dialog with the new message Activity.
             //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 // Replace with your own message
-                IActivity replyActivity = MessageFactory.Text($"{turnContext.Activity.Text}");
+                IActivity replyActivity = MessageFactory.Text($"{await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken).Text}");
 
                 // Replace with your own condition for bot escalation
                 if (turnContext.Activity.Text.Equals("escalate", StringComparison.InvariantCultureIgnoreCase))
