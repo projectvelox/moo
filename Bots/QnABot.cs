@@ -52,10 +52,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var httpResponseMessage = await httpResponse.Content.ReadAsStringAsync();
                 dynamic httpResponseJson = JsonConvert.DeserializeObject(httpResponseMessage);
                 var replyMessage = httpResponseJson.answers[0].answer;
-                
-                
-                //await context.PostAsync(replyMessage);
-                //context.Wait(MessageReceivedAsync);
 
                 // Replace with your own message
                 IActivity replyActivity = MessageFactory.Text($"{replyMessage}");
