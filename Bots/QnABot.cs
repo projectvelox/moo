@@ -41,7 +41,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 if (turnContext.Activity.Type == ActivityTypes.Message)
                 {
                     // Replace with your own message
-                    IActivity replyActivity = MessageFactory.Text($"{turnContext.Activity.Text}");
+                    IActivity replyActivity = MessageFactory.Text($"{turnContext}");
 
                     // Replace with your own condition for bot escalation
                     if (turnContext.Activity.Text.Equals("escalate", StringComparison.InvariantCultureIgnoreCase))
@@ -67,7 +67,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 //await turnContext.SendActivityAsync(Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken), cancellationToken);
 
                 turnContext.SendActivityAsync(replyActivity, cancellationToken);
-                await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+                //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
 
             }
 
