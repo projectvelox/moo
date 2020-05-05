@@ -51,7 +51,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var httpResponse = await httpClient.PostAsync(url, httpContent);
                 var httpResponseMessage = await httpResponse.Content.ReadAsStringAsync();
                 dynamic httpResponseJson = JsonConvert.DeserializeObject(httpResponseMessage);
-                var replyMessage = (string)httpResponseJson.answers[0].answer;
+                var replyMessage = httpResponseJson.answers[0].answer;
                 
                 
                 //await context.PostAsync(replyMessage);
