@@ -54,7 +54,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var replyMessage = httpResponseJson.answers[0].answer;
 
                 // Replace with your own message
-                IActivity replyActivity = MessageFactory.Text($"{replyMessage}");
+                IActivity replyActivity = MessageFactory.Text(replyMessage);
 
                 // Replace with your own condition for bot escalation
                 if (turnContext.Activity.Text.Equals("escalate", StringComparison.InvariantCultureIgnoreCase))
