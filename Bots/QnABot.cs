@@ -41,7 +41,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 // Replace with your own message
-                IActivity replyActivity = MessageFactory.Text($"{turnContext}");
+                IActivity replyActivity = MessageFactory.Text($"{turnContext.Activity.Text}");
 
                 // Replace with your own condition for bot escalation
                 if (turnContext.Activity.Text.Equals("escalate", StringComparison.InvariantCultureIgnoreCase))
