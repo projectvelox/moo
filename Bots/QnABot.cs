@@ -41,8 +41,24 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
+                var activity = await result as Activity;
+                var text = (activity.Text ?? string.Empty);
+                var url = "https://mooqnakb.azurewebsites.net/qnamaker/knowledgebases/bbb9cb8b-bef5-44b3-b3f0-c4fe30a4e63d/generateAnswer";
+                var httpContent = new StringContent("{'question':'" + text + "'}", Encoding.UTF8, "application/json");
+
+                var httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Add("Authorization", "EndpointKey 68bddf3c-07d6-47cd-91a9-d49fc575ee7b");
+                var httpResponse = await httpClient.PostAsync(url, httpContent);
+                var httpResponseMessage = await httpResponse.Content.ReadAsStringAsync();
+                dynamic httpResponseJson = JsonConvert.DeserializeObject(httpResponseMessage);
+                var replyMessage = (string)httpResponseJson.answers[0].answer;
+                
+                
+                //await context.PostAsync(replyMessage);
+                //context.Wait(MessageReceivedAsync);
+
                 // Replace with your own message
-                IActivity replyActivity = MessageFactory.Text($"{Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken)}");
+                IActivity replyActivity = MessageFactory.Text($"{replyMessage}");
 
                 // Replace with your own condition for bot escalation
                 if (turnContext.Activity.Text.Equals("escalate", StringComparison.InvariantCultureIgnoreCase))
