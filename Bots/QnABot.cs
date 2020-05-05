@@ -41,7 +41,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 if (turnContext.Activity.Type == ActivityTypes.Message)
                 {
                     // Replace with your own message
-                    IActivity replyActivity = Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+                    IActivity replyActivity = MessageFactory.Text(Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken));
 
                 // Replace with your own condition for bot escalation
                 if (turnContext.Activity.Text.Equals("escalate", StringComparison.InvariantCultureIgnoreCase))
