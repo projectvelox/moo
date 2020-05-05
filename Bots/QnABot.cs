@@ -41,10 +41,10 @@ namespace Microsoft.BotBuilderSamples.Bots
                 if (turnContext.Activity.Type == ActivityTypes.Message)
                 {
                     // Replace with your own message
-                    IActivity replyActivity = MessageFactory.Text($"{ ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken}");
+                    IActivity replyActivity = Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
 
-                    // Replace with your own condition for bot escalation
-                    if (turnContext.Activity.Text.Equals("escalate", StringComparison.InvariantCultureIgnoreCase))
+                // Replace with your own condition for bot escalation
+                if (turnContext.Activity.Text.Equals("escalate", StringComparison.InvariantCultureIgnoreCase))
                     {
                         Dictionary<string, object> contextVars = new Dictionary<string, object>() { { "Bo-tHandoffTopic", "CreditCard" } };
             OmnichannelBotClient.AddEscalationContext(replyActivity, contextVars);
