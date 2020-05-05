@@ -35,13 +35,13 @@ namespace Microsoft.BotBuilderSamples.Bots
         }
 
        protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
-         {           
-                // Run the Dialog with the new message Activity.
-                //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
-                if (turnContext.Activity.Type == ActivityTypes.Message)
-                {
-                    // Replace with your own message
-                    IActivity replyActivity = MessageFactory.Text(ConversationState.CreateProperty<DialogState>(nameof(DialogState)));
+         {
+            // Run the Dialog with the new message Activity.
+            //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+            if (turnContext.Activity.Type == ActivityTypes.Message)
+            {
+                // Replace with your own message
+                IActivity replyActivity = MessageFactory.Text($"{ConversationState.CreateProperty<DialogState>(nameof(DialogState))}");
 
                 // Replace with your own condition for bot escalation
                 if (turnContext.Activity.Text.Equals("escalate", StringComparison.InvariantCultureIgnoreCase))
