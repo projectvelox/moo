@@ -58,7 +58,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             // The actual call to the QnA Maker service.
             var response = await qnaMaker.GetAnswersRawAsync(turnContext, options);
-            await turnContext.SendActivityAsync(MessageFactory.Text(response), cancellationToken);
+            await turnContext.SendActivityAsync(MessageFactory.Text(response.Result), cancellationToken);
             
             //var response = await qnaMaker.GetAnswersAsync(turnContext, options);
             /*if (response != null && response.Length > 0)
