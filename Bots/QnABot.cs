@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using System;
 using System.Net;
+using System.Object;
 using System.Text;
 using System.Net.Http;
 using System.Collections.Generic;
@@ -43,7 +44,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
 
             var activity = turnContext.Activity.Text;
-            var text = (activity.Text ?? string.Empty);
+            var text = (activity ?? string.Empty);
             var url = "https://mooqnakb.azurewebsites.net/qnamaker/knowledgebases/bbb9cb8b-bef5-44b3-b3f0-c4fe30a4e63d/generateAnswer";
             var httpContent = new StringContent("{'question':'" + text + "'}", Encoding.UTF8, "application/json");
 
