@@ -24,7 +24,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected readonly BotState ConversationState;
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
-
+        private readonly IHttpClientFactory _httpClientFactory;
 
         public QnABot(ConversationState conversationState, UserState userState, T dialog)
         {
