@@ -61,7 +61,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             var response = await qnaMaker.GetAnswersAsync(turnContext, options);
             if (response != null && response.Length > 0)
             {
-                await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
+                await turnContext.SendActivityAsync(MessageFactory.Text(response[0].answers.answer), cancellationToken);
             }
             else
             {
