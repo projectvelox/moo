@@ -36,7 +36,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         private async Task AccessQnAMaker(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var httpClient = _httpClientFactory.CreateClient();
+            var httpClient = new HttpClient();
 
             var qnaMaker = new QnAMaker(new QnAMakerEndpoint
             {
