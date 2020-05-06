@@ -34,11 +34,10 @@ namespace Microsoft.BotBuilderSamples.Bots
         }
 
         public QnAMaker EchoBotQnA { get; private set; }
-        public EchoBot(QnAMakerEndpoint endpoint)
+        public QnAMaker EchoBot(QnAMakerEndpoint endpoint)
         {
             // connects to QnA Maker endpoint for each turn
             EchoBotQnA = new QnAMaker(endpoint);
-            return EchoBotQnA;
         }
 
         private async Task AccessQnAMaker(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
