@@ -50,7 +50,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             var qnaMaker = new QnAMaker(new QnAMakerEndpoint
             {
-                KnowledgeBaseId = "bbb9cb8b-bef5-44b3-b3f0-c4fe30a4e63d"",
+                KnowledgeBaseId = "bbb9cb8b-bef5-44b3-b3f0-c4fe30a4e63d",
                 EndpointKey = "68bddf3c-07d6-47cd-91a9-d49fc575ee7b",
                 Host = "mooqnakb.azurewebsites.net"
             },
