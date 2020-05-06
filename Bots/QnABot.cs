@@ -25,6 +25,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
 
+
         public QnABot(ConversationState conversationState, UserState userState, T dialog)
         {
             ConversationState = conversationState;
@@ -45,58 +46,68 @@ namespace Microsoft.BotBuilderSamples.Bots
        {
             // Run the Dialog with the new message Activity.
             //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
-            var httpClient = new HttpClient();
-            var options = new QnAMakerOptions { Top = 1 };
+            var httpClient = _httpClientFactory.CreateClient();
 
             var qnaMaker = new QnAMaker(new QnAMakerEndpoint
             {
-                KnowledgeBaseId = "bbb9cb8b-bef5-44b3-b3f0-c4fe30a4e63d",
+                KnowledgeBaseId = "bbb9cb8b-bef5-44b3-b3f0-c4fe30a4e63d"",
                 EndpointKey = "68bddf3c-07d6-47cd-91a9-d49fc575ee7b",
                 Host = "mooqnakb.azurewebsites.net"
             },
             null,
             httpClient);
 
+            var options = new QnAMakerOptions { Top = 1 };
+
+            // The actual call to the QnA Maker service.
             var response = await qnaMaker.GetAnswersAsync(turnContext, options);
-            turnContext.SendActivityAsync(MessageFactory.Text(response.Text), cancellationToken);
-
-            // if (response != null && response.Length > 0)
-            //{
-            //   turnContext.SendActivityAsync(MessageFactory.Text(turnContext.Activity.Text) /*MessageFactory.Text(response[0].Answer)*/, cancellationToken);
-            //} 
-
-            /*if (turnContext.Activity.Type == ActivityTypes.Message)
+            if (response != null && response.Length > 0)
             {
-
-                // Replace with your own message
-                IActivity replyActivity = MessageFactory.Text($"{response[0].Answer}");
-
-                // Replace with your own condition for bot escalation
-                if (turnContext.Activity.Text.Equals("escalate", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        Dictionary<string, object> contextVars = new Dictionary<string, object>() { { "BotHandoffTopic", "CreditCard" } };
-            OmnichannelBotClient.AddEscalationContext(replyActivity, contextVars);
-                    }
-                    // Replace with your own condition for bot end conversation
-                    else if (turnContext.Activity.Text.Equals("endconversation", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        OmnichannelBotClient.AddEndConversationContext(replyActivity);
-                    }
-                    // Call method BridgeBotMessage for every response that needs to be delivered to the customer.
-                    else
-                    {
-                        OmnichannelBotClient.BridgeBotMessage(replyActivity);
-                    }
-
-                //await turnContext.SendActivityAsync(replyActivity, cancellationToken);
-
-                turnContext.SendActivityAsync(replyActivity, cancellationToken);
-                //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
-
+                await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
             }
-            */
+            else
+            {
+                await turnContext.SendActivityAsync(MessageFactory.Text("No QnA Maker answers were found."), cancellationToken);
+            }
+        
+
+        // if (response != null && response.Length > 0)
+        //{
+        //   turnContext.SendActivityAsync(MessageFactory.Text(MessageFactory.Text(response[0].Answer), cancellationToken);
+        //} 
+
+        /*if (turnContext.Activity.Type == ActivityTypes.Message)
+        {
+
+            // Replace with your own message
+            IActivity replyActivity = MessageFactory.Text($"{response[0].Answer}");
+
+            // Replace with your own condition for bot escalation
+            if (turnContext.Activity.Text.Equals("escalate", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    Dictionary<string, object> contextVars = new Dictionary<string, object>() { { "BotHandoffTopic", "CreditCard" } };
+        OmnichannelBotClient.AddEscalationContext(replyActivity, contextVars);
+                }
+                // Replace with your own condition for bot end conversation
+                else if (turnContext.Activity.Text.Equals("endconversation", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    OmnichannelBotClient.AddEndConversationContext(replyActivity);
+                }
+                // Call method BridgeBotMessage for every response that needs to be delivered to the customer.
+                else
+                {
+                    OmnichannelBotClient.BridgeBotMessage(replyActivity);
+                }
+
+            //await turnContext.SendActivityAsync(replyActivity, cancellationToken);
+
+            turnContext.SendActivityAsync(replyActivity, cancellationToken);
+            //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
 
         }
+        */
+
+    }
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             foreach (var member in membersAdded)
