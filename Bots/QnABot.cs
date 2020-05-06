@@ -33,17 +33,11 @@ namespace Microsoft.BotBuilderSamples.Bots
             Dialog = dialog;
         }
 
-        public QnAMaker EchoBotQnA { get; private set; }
-        public EchoBot(QnAMakerEndpoint endpoint)
-        {
-            // connects to QnA Maker endpoint for each turn
-            EchoBotQnA = new QnAMaker(endpoint);
 
-            return EchoBotQnA;
-        }
-
-        private async Task AccessQnAMaker(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        private async Task AccessQnAMaker(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken, QnAMakerEndpoint endpoint)
         {
+            var EchoBotQnA = new QnAMaker(endpoint);
+
             var results = await EchoBotQnA.GetAnswersAsync(turnContext);
             if (results.Any())
             {
@@ -111,14 +105,14 @@ namespace Microsoft.BotBuilderSamples.Bots
             */
 
         }
-        protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken, QnAMakerEndpoint endpoint)
         {
             foreach (var member in membersAdded)
             {
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     await turnContext.SendActivityAsync(MessageFactory.Text($"Hello and welcome!"), cancellationToken);
-                    await AccessQnAMaker(turnContext, cancellationToken);
+                    await AccessQnAMaker(turnContext, cancellationToken, endpoint);
                 }
             }
         }
