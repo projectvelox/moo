@@ -44,8 +44,6 @@ namespace Microsoft.BotBuilderSamples.Bots
 
        protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
        {
-            // Run the Dialog with the new message Activity.
-            //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
             var httpClient = _httpClientFactory.CreateClient();
 
             var qnaMaker = new QnAMaker(new QnAMakerEndpoint
@@ -70,11 +68,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                 await turnContext.SendActivityAsync(MessageFactory.Text("No QnA Maker answers were found."), cancellationToken);
             }
         
-
-        // if (response != null && response.Length > 0)
-        //{
-        //   turnContext.SendActivityAsync(MessageFactory.Text(MessageFactory.Text(response[0].Answer), cancellationToken);
-        //} 
 
         /*if (turnContext.Activity.Type == ActivityTypes.Message)
         {
