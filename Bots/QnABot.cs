@@ -54,10 +54,10 @@ namespace Microsoft.BotBuilderSamples.Bots
             null,
             httpClient);
 
-            var options = new QnAMakerOptions { Top = 1 };
+            var options = new QnAMakerOption();
 
             // The actual call to the QnA Maker service.
-            var response = await qnaMaker.GetAnswersRawAsync(turnContext, options);
+            var response = await qnaMaker.GetAnswersAsync(turnContext, options);
             await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
             
             //var response = await qnaMaker.GetAnswersAsync(turnContext, options);
