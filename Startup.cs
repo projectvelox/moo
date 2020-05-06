@@ -4,12 +4,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.BotBuilderSamples.Bots;
 using Microsoft.BotBuilderSamples.Dialog;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -47,6 +49,13 @@ namespace Microsoft.BotBuilderSamples
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, QnABot<RootDialog>>();
+
+            services.AddSingleton(new QnAMakerEndpoint
+            {
+                KnowledgeBaseId = "bbb9cb8b-bef5-44b3-b3f0-c4fe30a4e63d",
+                EndpointKey = "68bddf3c-07d6-47cd-91a9-d49fc575ee7b",
+                Host = "mooqnakb.azurewebsites.net"
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
