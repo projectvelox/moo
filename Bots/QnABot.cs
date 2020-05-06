@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 using System;
 using System.Net;
-using System.Object;
 using System.Text;
+using System.Text.Json;
 using System.Net.Http;
 using System.Collections.Generic;
 using System.Threading;
