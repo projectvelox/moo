@@ -3,7 +3,7 @@
 using System;
 using System.Net;
 using System.Text;
-using System.Net.Http.HttpClient;
+using System.Net.Http;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
