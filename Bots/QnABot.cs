@@ -36,7 +36,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         }
         
         
-        public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
+        public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             await base.OnTurnAsync(turnContext, cancellationToken);
 
