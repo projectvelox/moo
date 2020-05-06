@@ -42,7 +42,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             // Run the Dialog with the new message Activity.
             //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
 
-            var activity = await turnContext as Activity;
+            var activity = turnContext.Activity.Text;
             var text = (activity.Text ?? string.Empty);
             var url = "https://mooqnakb.azurewebsites.net/qnamaker/knowledgebases/bbb9cb8b-bef5-44b3-b3f0-c4fe30a4e63d/generateAnswer";
             var httpContent = new StringContent("{'question':'" + text + "'}", Encoding.UTF8, "application/json");
