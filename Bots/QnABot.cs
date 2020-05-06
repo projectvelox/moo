@@ -45,7 +45,7 @@ namespace Microsoft.BotBuilderSamples.Bots
        {
             // Run the Dialog with the new message Activity.
             //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
-            var httpClient = new HttpClient();
+            /*var httpClient = new HttpClient();
             var options = new QnAMakerOptions { Top = 1 };
 
             var qnaMaker = new QnAMaker(new QnAMakerEndpoint
@@ -57,11 +57,13 @@ namespace Microsoft.BotBuilderSamples.Bots
             null,
             httpClient);
 
-            var response = await qnaMaker.GetAnswersAsync(turnContext, options);
-            if (response != null && response.Length > 0)
-            {
-                turnContext.SendActivityAsync(MessageFactory.Text(turnContext.Activity.Text) /*MessageFactory.Text(response[0].Answer)*/, cancellationToken);
-            }
+            var response = await qnaMaker.GetAnswersAsync(turnContext, options); */
+            turnContext.SendActivityAsync(MessageFactory.Text(turnContext.Activity.Text), cancellationToken);
+
+            // if (response != null && response.Length > 0)
+            //{
+            //   turnContext.SendActivityAsync(MessageFactory.Text(turnContext.Activity.Text) /*MessageFactory.Text(response[0].Answer)*/, cancellationToken);
+            //} 
 
             /*if (turnContext.Activity.Type == ActivityTypes.Message)
             {
