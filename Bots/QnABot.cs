@@ -24,7 +24,6 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected readonly BotState ConversationState;
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
-        private readonly IHttpClientFactory _httpClientFactory;
 
         public QnABot(ConversationState conversationState, UserState userState, T dialog)
         {
@@ -44,7 +43,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
        protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
        {
-            var httpClient = _httpClientFactory.CreateClient();
+            var httpClient = new HttpClient();
 
             var qnaMaker = new QnAMaker(new QnAMakerEndpoint
             {
