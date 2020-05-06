@@ -57,16 +57,18 @@ namespace Microsoft.BotBuilderSamples.Bots
             var options = new QnAMakerOptions { Top = 1 };
 
             // The actual call to the QnA Maker service.
-            var response = await qnaMaker.getAnswers(turnContext, options);
+            var response = qnaMaker.GetAnswersAsync(turnContext, options);
+            turnContext.SendActivityAsync(MessageFactory.Text(response.Answer), cancellationToken);
+            
             //var response = await qnaMaker.GetAnswersAsync(turnContext, options);
-            if (response != null && response.Length > 0)
+            /*if (response != null && response.Length > 0)
             {
                 await turnContext.SendActivityAsync(MessageFactory.Text(turnContext.Activity.Text), cancellationToken);
             }
             else
             {
                 await turnContext.SendActivityAsync(MessageFactory.Text("No QnA Maker answers were found."), cancellationToken);
-            }
+            } */
         
 
         /*if (turnContext.Activity.Type == ActivityTypes.Message)
