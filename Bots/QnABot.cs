@@ -69,7 +69,7 @@ namespace Microsoft.BotBuilderSamples.Bots
        protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
        {
 
-
+            await AccessQnAMaker(turnContext, cancellationToken);
 
             //var response = await qnaMaker.GetAnswersAsync(turnContext, options);
             /*if (response != null && response.Length > 0)
@@ -121,7 +121,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     await turnContext.SendActivityAsync(MessageFactory.Text($"Hello and welcome!"), cancellationToken);
-                    await AccessQnAMaker(turnContext, cancellationToken);
+                    
                 }
             }
         }
