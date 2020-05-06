@@ -53,7 +53,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             var httpResponse = await httpClient.PostAsync(url, httpContent);
             var httpResponseMessage = await httpResponse.Content.ReadAsStringAsync();
             var httpResponseJson = JsonConvert.DeserializeObject(httpResponseMessage);
-            var replyMessage = httpResponseJson.answers[0].answer;
+            var replyMessage = httpResponseJson.response[0].Answer;
             
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
