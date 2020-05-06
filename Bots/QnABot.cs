@@ -42,6 +42,8 @@ namespace Microsoft.BotBuilderSamples.Bots
        {
             // Run the Dialog with the new message Activity.
             //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+            var httpClient = new HttpClient();
+            var options = new QnAMakerOptions { Top = 1 };
 
             var qnaMaker = new QnAMaker(new QnAMakerEndpoint
             {
