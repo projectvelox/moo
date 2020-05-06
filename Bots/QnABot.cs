@@ -58,9 +58,12 @@ namespace Microsoft.BotBuilderSamples.Bots
             httpClient);
 
             var response = await qnaMaker.GetAnswersAsync(turnContext, options);
+            if (response != null && response.Length > 0)
+            {
+                await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
+            }
 
-            
-            if (turnContext.Activity.Type == ActivityTypes.Message)
+            /*if (turnContext.Activity.Type == ActivityTypes.Message)
             {
 
                 // Replace with your own message
@@ -89,7 +92,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
 
             }
-
+            */
 
         }
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
