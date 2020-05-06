@@ -56,17 +56,17 @@ namespace Microsoft.BotBuilderSamples.Bots
             httpClient);
 
             var options = new QnAMakerOptions { Top = 1 };
-
+            turnContext.SendActivityAsync(MessageFactory.Text(turnContext.Activity.Text), cancellationToken);
             // The actual call to the QnA Maker service.
-            var response = await qnaMaker.GetAnswersAsync(turnContext, options);
-            if (response != null && response.Length > 0)
+            //var response = await qnaMaker.GetAnswersAsync(turnContext, options);
+            /*if (response != null && response.Length > 0)
             {
                 await turnContext.SendActivityAsync(MessageFactory.Text(turnContext.Activity.Text), cancellationToken);
             }
             else
             {
                 await turnContext.SendActivityAsync(MessageFactory.Text("No QnA Maker answers were found."), cancellationToken);
-            }
+            }*/
         
 
         /*if (turnContext.Activity.Type == ActivityTypes.Message)
