@@ -43,23 +43,23 @@ namespace Microsoft.BotBuilderSamples.Bots
             // Run the Dialog with the new message Activity.
             //await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
 
-            var activity = turnContext.Activity.Text;
-            var text = (activity ?? string.Empty);
-            var url = "https://mooqnakb.azurewebsites.net/qnamaker/knowledgebases/bbb9cb8b-bef5-44b3-b3f0-c4fe30a4e63d/generateAnswer";
-            var httpContent = new StringContent("{'question':'" + text + "'}", Encoding.UTF8, "application/json");
+            var qnaMaker = new QnAMaker(new QnAMakerEndpoint
+            {
+                KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
+                EndpointKey = _configuration["QnAEndpointKey"],
+                Host = _configuration["QnAEndpointHostName"]
+            },
+            null,
+            httpClient);
 
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add("Authorization", "EndpointKey 68bddf3c-07d6-47cd-91a9-d49fc575ee7b");
-            var httpResponse = await httpClient.PostAsync(url, httpContent);
-            var httpResponseMessage = await httpResponse.Content.ReadAsStringAsync();
-            var httpResponseJson = JsonConvert.DeserializeObject(httpResponseMessage);
-            var replyMessage = httpResponseJson.response[0].Answer;
+            var response = await qnaMaker.GetAnswersAsync(turnContext, options);
+
             
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
 
                 // Replace with your own message
-                IActivity replyActivity = MessageFactory.Text($"{turnContext.Activity.Text}");
+                IActivity replyActivity = MessageFactory.Text($"{response[0].Answer}");
 
                 // Replace with your own condition for bot escalation
                 if (turnContext.Activity.Text.Equals("escalate", StringComparison.InvariantCultureIgnoreCase))
