@@ -34,11 +34,20 @@ namespace Microsoft.BotBuilderSamples.Bots
         }
 
 
-        private async Task AccessQnAMaker(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken, QnAMakerEndpoint endpoint)
+        private async Task AccessQnAMaker(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var EchoBotQnA = new QnAMaker(endpoint);
+            var httpClient = _httpClientFactory.CreateClient();
 
-            var results = await EchoBotQnA.GetAnswersAsync(turnContext);
+            var qnaMaker = new QnAMaker(new QnAMakerEndpoint
+            {
+                KnowledgeBaseId = "bbb9cb8b-bef5-44b3-b3f0-c4fe30a4e63d",
+                EndpointKey = "68bddf3c-07d6-47cd-91a9-d49fc575ee7b",
+                Host = "mooqnakb.azurewebsites.net"
+            },
+            null,
+            httpClient);
+
+            var results = await qnaMaker.GetAnswersAsync(turnContext);
             if (results.Any())
             {
                 await turnContext.SendActivityAsync(MessageFactory.Text("QnA Maker Returned: " + results.First().Answer), cancellationToken);
@@ -105,14 +114,14 @@ namespace Microsoft.BotBuilderSamples.Bots
             */
 
         }
-        protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken, QnAMakerEndpoint endpoint)
+        protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             foreach (var member in membersAdded)
             {
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     await turnContext.SendActivityAsync(MessageFactory.Text($"Hello and welcome!"), cancellationToken);
-                    await AccessQnAMaker(turnContext, cancellationToken, endpoint);
+                    await AccessQnAMaker(turnContext, cancellationToken);
                 }
             }
         }
