@@ -54,7 +54,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             null,
             httpClient);
 
-            var options = new QnAMakerOption { } ;
+            var options = new QnAMakerOptions { Top = 1 };
 
             // The actual call to the QnA Maker service.
             var response = await qnaMaker.GetAnswersAsync(turnContext, options);
