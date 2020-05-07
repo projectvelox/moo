@@ -27,30 +27,37 @@ namespace Microsoft.BotBuilderSamples
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var httpClient = _httpClientFactory.CreateClient();
-
-            var qnaMaker = new QnAMaker(new QnAMakerEndpoint
+            try
             {
-                KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
-                EndpointKey = _configuration["QnAEndpointKey"],
-                Host = _configuration["QnAEndpointHostName"]
-            },
-            null,
-            httpClient);
+                var httpClient = _httpClientFactory.CreateClient();
 
-            _logger.LogInformation("Calling QnA Maker");
+                var qnaMaker = new QnAMaker(new QnAMakerEndpoint
+                {
+                    KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
+                    EndpointKey = _configuration["QnAEndpointKey"],
+                    Host = _configuration["QnAEndpointHostName"]
+                },
+                null,
+                httpClient);
 
-            var options = new QnAMakerOptions { Top = 1 };
+                _logger.LogInformation("Calling QnA Maker");
 
-            // The actual call to the QnA Maker service.
-            var response = await qnaMaker.GetAnswersAsync(turnContext, options);
-            if (response != null && response.Length > 0)
-            {
-                await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
+                var options = new QnAMakerOptions { Top = 1 };
+
+                // The actual call to the QnA Maker service.
+                var response = await qnaMaker.GetAnswersAsync(turnContext, options);
+                if (response != null && response.Length > 0)
+                {
+                    await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
+                }
+                else
+                {
+                    await turnContext.SendActivityAsync(MessageFactory.Text("No QnA Maker answers were found."), cancellationToken);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await turnContext.SendActivityAsync(MessageFactory.Text("No QnA Maker answers were found."), cancellationToken);
+                await turnContext.SendActivityAsync(MessageFactory.Text(ex.ToString()), cancellationToken);
             }
         }
     }
