@@ -18,7 +18,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using EchoBot.OmniChannel;
 
-
 namespace Microsoft.BotBuilderSamples.Bots
 {
     public class QnABot<T> : ActivityHandler where T : Microsoft.Bot.Builder.Dialogs.Dialog
@@ -29,7 +28,6 @@ namespace Microsoft.BotBuilderSamples.Bots
         private readonly IConfiguration _configuration;
         private readonly IHttpClientFactory _httpClientFactory;
 
-
         public QnABot(ConversationState conversationState, UserState userState, T dialog, IConfiguration configuration, IHttpClientFactory httpClientFactory)
         {
             ConversationState = conversationState;
@@ -38,7 +36,6 @@ namespace Microsoft.BotBuilderSamples.Bots
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
         }
-
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
@@ -54,7 +51,6 @@ namespace Microsoft.BotBuilderSamples.Bots
             try
             {
                 var httpClient = _httpClientFactory.CreateClient();
-
                 var qnaMaker = new QnAMaker(new QnAMakerEndpoint
                 {
                     KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
@@ -70,6 +66,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var response = await qnaMaker.GetAnswersAsync(turnContext, options);
                 if (response != null && response.Length > 0)
                 {
+                    //OmnichannelBotClient.BridgeBotMessage(response[0].Answer);
                     await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
                 }
                 else
