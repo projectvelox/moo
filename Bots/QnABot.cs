@@ -27,7 +27,6 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<QnABot> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
 
         public QnABot(ConversationState conversationState, UserState userState, T dialog, IConfiguration configuration, ILogger<QnABot> logger, IHttpClientFactory httpClientFactory)
@@ -36,7 +35,6 @@ namespace Microsoft.BotBuilderSamples.Bots
             UserState = userState;
             Dialog = dialog;
             _configuration = configuration;
-            _logger = logger;
             _httpClientFactory = httpClientFactory;
         }
 
@@ -64,8 +62,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                 },
                 null,
                 httpClient);
-
-                _logger.LogInformation("Calling QnA Maker");
 
                 var options = new QnAMakerOptions { Top = 1 };
 
