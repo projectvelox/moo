@@ -77,7 +77,8 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             try
             {
-                var results = await EchoBotQnA.GetAnswersAsync(turnContext);
+                var options = new QnAMakerOptions { Top = 1 };
+                var results = await EchoBotQnA.GetAnswersAsync(turnContext, options);
                 if (results.Any())
                 {
                     await turnContext.SendActivityAsync(MessageFactory.Text("QnA Maker Returned: " + results.First().Answer), cancellationToken);
