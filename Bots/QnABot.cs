@@ -80,15 +80,15 @@ namespace Microsoft.BotBuilderSamples.Bots
 
                 var qnaMaker = new QnAMaker(new QnAMakerEndpoint
                 {
-                    KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
-                    EndpointKey = _configuration["QnAAuthKey"],
-                    Host = _configuration["QnAEndpointHostName"]
+                    KnowledgeBaseId = Configuration.GetValue<string>($"QnAKnowledgebaseId"),
+                    EndpointKey = Configuration.GetValue<string>($"QnAAuthKey"),
+                    Host = Configuration.GetValue<string>($"QnAEndpointHostName")
                 },
                 null,
                 httpClient);
 
                 var options = new QnAMakerOptions { Top = 1 };
-                var results = await EchoBotQnA.GetAnswersAsync(turnContext, options);
+                var results = await qnaMaker.GetAnswersAsync(turnContext, options);
 
                 if (results.Any())
                 {
