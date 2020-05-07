@@ -53,7 +53,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 IActivity replyActivity = MessageFactory.Text(dialogTask.ToString());
 
                 OmnichannelBotClient.BridgeBotMessage(replyActivity);
-                await turnContext.SendActivityAsync(MessageFactory.Text(replyActivity), cancellationToken);
+                await turnContext.SendActivityAsync(replyActivity, cancellationToken);
             }
 
             catch (Exception ex)
