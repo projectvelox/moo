@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Configuration;
 
 using EchoBot.OmniChannel;
 using Microsoft.Extensions.Logging;
@@ -26,11 +27,12 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
 
-        public QnABot(ConversationState conversationState, UserState userState, T dialog)
+        public QnABot(ConversationState conversationState, UserState userState, T dialog, IConfiguration configuration)
         {
             ConversationState = conversationState;
             UserState = userState;
             Dialog = dialog;
+            Configuration = configuration;
         }
 
         /* public QnaBot(QnAMakerEndpoint endpoint)
@@ -38,7 +40,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             // connects to QnA Maker endpoint for each turn
             EchoBotQnA = new QnAMaker(endpoint);
         } */
-   
+
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
@@ -79,7 +81,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var qnaMaker = new QnAMaker(new QnAMakerEndpoint
                 {
                     KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
-                    EndpointKey = _configuration["QnAEndpointKey"],
+                    EndpointKey = _configuration["QnAAuthKey"],
                     Host = _configuration["QnAEndpointHostName"]
                 },
                 null,
