@@ -97,7 +97,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 
 
 
-                IActivity replyActivity = MessageFactory.Text(dialogTask.FromResult);
+                IActivity replyActivity = MessageFactory.Text(dialogTask.FromResult.ToString());
                 OmnichannelBotClient.BridgeBotMessage(replyActivity);
 
                 // Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
