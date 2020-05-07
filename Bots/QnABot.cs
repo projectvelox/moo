@@ -50,7 +50,9 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             try
             {
-                var httpClient = _httpClientFactory.CreateClient();
+                Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken)
+                
+                /*var httpClient = _httpClientFactory.CreateClient();
                 var qnaMaker = new QnAMaker(new QnAMakerEndpoint
                 {
                     KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
@@ -65,7 +67,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 // The actual call to the QnA Maker service.
                 var response = await qnaMaker.GetAnswersAsync(turnContext, options);
                 await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
-
+                */
                 /*if (response != null && response.Length > 0)
                 {
                     //OmnichannelBotClient.BridgeBotMessage(response[0].Answer);
