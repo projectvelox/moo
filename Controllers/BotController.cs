@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System.Threading.Tasks;
@@ -24,7 +24,7 @@ namespace Microsoft.BotBuilderSamples
             _bot = bot;
         }
 
-        [HttpGet, HttpPost]
+        [HttpPost]
         public async Task PostAsync()
         {
             // Delegate the processing of the HTTP POST to the adapter.
