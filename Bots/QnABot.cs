@@ -14,8 +14,6 @@ using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using EchoBot.OmniChannel;
 
 namespace Microsoft.BotBuilderSamples.Bots
@@ -64,7 +62,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     await turnContext.SendActivityAsync(MessageFactory.Text($"Hello and welcome!"), cancellationToken);
-                    
                 }
             }
         }
