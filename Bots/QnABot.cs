@@ -20,7 +20,7 @@ using EchoBot.OmniChannel;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
-    public class QnABot<T> : ActivityHandler //where T : Microsoft.Bot.Builder.Dialogs.Dialog
+    public class QnABot<T> : ActivityHandler where T : Microsoft.Bot.Builder.Dialogs.Dialog
     {
         protected readonly BotState ConversationState;
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
