@@ -50,39 +50,8 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             try
             {
-                Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken)
-                
-                /*var httpClient = _httpClientFactory.CreateClient();
-                var qnaMaker = new QnAMaker(new QnAMakerEndpoint
-                {
-                    KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
-                    EndpointKey = _configuration["QnAEndpointKey"],
-                    Host = _configuration["QnAEndpointHostName"]
-                },
-                null,
-                httpClient);
-
-                var options = new QnAMakerOptions { Top = 1 };
-
-                // The actual call to the QnA Maker service.
-                var response = await qnaMaker.GetAnswersAsync(turnContext, options);
-                await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
-                */
-                /*if (response != null && response.Length > 0)
-                {
-                    //OmnichannelBotClient.BridgeBotMessage(response[0].Answer);
-                    await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
-                }
-                else
-                {
-                    await turnContext.SendActivityAsync(MessageFactory.Text("No QnA Maker answers were found."), cancellationToken);
-                }*/
-
-                //var dialogTask = Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
-                //IActivity replyActivity = MessageFactory.Text(dialogTask.FromResult(0).Result.ToString());
-
-                //OmnichannelBotClient.BridgeBotMessage(replyActivity);
-                //await turnContext.SendActivityAsync(replyActivity, cancellationToken);
+                OmnichannelBotClient.BridgeBotMessage(turnContext.Activity);
+                Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
             }
 
             catch (Exception ex)
