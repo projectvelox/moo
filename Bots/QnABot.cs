@@ -48,7 +48,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             try
             {
-                var dialogTask = Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+                var dialogTask = await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
 
                 IActivity replyActivity = MessageFactory.Text(dialogTask.ToString());
 
