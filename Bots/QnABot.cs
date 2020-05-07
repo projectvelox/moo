@@ -92,14 +92,19 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var options = new QnAMakerOptions { Top = 1 };
                 var results = await qnaMaker.GetAnswersAsync(turnContext, options);
 
-                if (results.Any())
+                string test = await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+                await turnContext.SendActivityAsync(MessageFactory.Text(test), cancellationToken);
+
+                /* if (results.Any())
                 {
-                    await turnContext.SendActivityAsync(MessageFactory.Text("QnA Maker Returned: " + results.First().Answer), cancellationToken);
+                    string test = await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+                    //await turnContext.SendActivityAsync(MessageFactory.Text("QnA Maker Returned: " + results.First().Answer), cancellationToken);
+                    await turnContext.SendActivityAsync(MessageFactory.Text(test), cancellationToken);
                 }
                 else
                 {
                     await turnContext.SendActivityAsync(MessageFactory.Text("Sorry, could not find an answer in the Q and A system."), cancellationToken);
-                }
+                } */
             }
 
             catch (Exception ex) {
