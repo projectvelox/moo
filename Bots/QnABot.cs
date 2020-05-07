@@ -92,7 +92,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var options = new QnAMakerOptions { Top = 1 };
                 var results = await qnaMaker.GetAnswersAsync(turnContext, options);
 
-                string test = await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+                string test = Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
                 await turnContext.SendActivityAsync(MessageFactory.Text(test), cancellationToken);
 
                 /* if (results.Any())
