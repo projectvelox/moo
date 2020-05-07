@@ -35,6 +35,8 @@ namespace Microsoft.BotBuilderSamples.Bots
             Configuration = configuration;
         }
 
+        public IConfiguration Configuration { get; }
+
         /* public QnaBot(QnAMakerEndpoint endpoint)
         {
             // connects to QnA Maker endpoint for each turn
