@@ -90,7 +90,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 httpClient);
 
                 var options = new QnAMakerOptions { Top = 1 };
-                var results = await qnaMaker.GetAnswersAsync(turnContext, options);
+                //var results = await qnaMaker.GetAnswersAsync(turnContext, options);
 
                 OmnichannelBotClient.BridgeBotMessage(Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken));
                 //await turnContext.SendActivityAsync(MessageFactory.Text(test.Result.Text), cancellationToken);
