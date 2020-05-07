@@ -15,9 +15,9 @@ using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
-
-using EchoBot.OmniChannel;
 using Microsoft.Extensions.Logging;
+using EchoBot.OmniChannel;
+
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
@@ -26,12 +26,18 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected readonly BotState ConversationState;
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<QnABot> _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public QnABot(ConversationState conversationState, UserState userState, T dialog)
+        public QnABot(ConversationState conversationState, UserState userState, T dialog, IConfiguration configuration, ILogger<QnABot> logger, IHttpClientFactory httpClientFactory)
         {
             ConversationState = conversationState;
             UserState = userState;
             Dialog = dialog;
+            _configuration = configuration;
+            _logger = logger;
+            _httpClientFactory = httpClientFactory;
         }
 
 
@@ -48,10 +54,35 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             try
             {
-                var dialogTask = Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+                var httpClient = _httpClientFactory.CreateClient();
 
-                IActivity replyActivity = MessageFactory.Text(dialogTask.FromResult(0).Result.ToString());
-                
+                var qnaMaker = new QnAMaker(new QnAMakerEndpoint
+                {
+                    KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
+                    EndpointKey = _configuration["QnAEndpointKey"],
+                    Host = _configuration["QnAEndpointHostName"]
+                },
+                null,
+                httpClient);
+
+                _logger.LogInformation("Calling QnA Maker");
+
+                var options = new QnAMakerOptions { Top = 1 };
+
+                // The actual call to the QnA Maker service.
+                var response = await qnaMaker.GetAnswersAsync(turnContext, options);
+                if (response != null && response.Length > 0)
+                {
+                    await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
+                }
+                else
+                {
+                    await turnContext.SendActivityAsync(MessageFactory.Text("No QnA Maker answers were found."), cancellationToken);
+                }
+
+                //var dialogTask = Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+                //IActivity replyActivity = MessageFactory.Text(dialogTask.FromResult(0).Result.ToString());
+
                 //OmnichannelBotClient.BridgeBotMessage(replyActivity);
                 //await turnContext.SendActivityAsync(replyActivity, cancellationToken);
             }
