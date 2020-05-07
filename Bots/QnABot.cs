@@ -28,19 +28,19 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         public QnAMaker EchoBotQnA { get; private set; }
 
-        public QnABot(ConversationState conversationState, UserState userState, T dialog)
+        public QnABot(ConversationState conversationState, UserState userState, T dialog, QnAMakerEndpoint endpoint)
         {
             ConversationState = conversationState;
             UserState = userState;
             Dialog = dialog;
-            //EchoBotQnA = new QnAMaker(endpoint);
+            EchoBotQnA = new QnAMaker(endpoint);
         }
 
-        public QnaBot(QnAMakerEndpoint endpoint)
+        /* public QnaBot(QnAMakerEndpoint endpoint)
         {
             // connects to QnA Maker endpoint for each turn
             EchoBotQnA = new QnAMaker(endpoint);
-        }
+        } */
    
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
