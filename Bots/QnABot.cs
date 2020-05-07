@@ -29,7 +29,8 @@ namespace Microsoft.BotBuilderSamples.Bots
         private readonly IConfiguration _configuration;
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public QnABot(ConversationState conversationState, UserState userState, T dialog, IConfiguration configuration, ILogger<QnABot> logger, IHttpClientFactory httpClientFactory)
+
+        public QnABot(ConversationState conversationState, UserState userState, T dialog, IConfiguration configuration, IHttpClientFactory httpClientFactory)
         {
             ConversationState = conversationState;
             UserState = userState;
