@@ -26,14 +26,11 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
 
-        public QnAMaker EchoBotQnA { get; private set; }
-
-        public QnABot(ConversationState conversationState, UserState userState, T dialog, QnAMakerEndpoint endpoint)
+        public QnABot(ConversationState conversationState, UserState userState, T dialog)
         {
             ConversationState = conversationState;
             UserState = userState;
             Dialog = dialog;
-            EchoBotQnA = new QnAMaker(endpoint);
         }
 
         /* public QnaBot(QnAMakerEndpoint endpoint)
@@ -77,8 +74,20 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             try
             {
+                var httpClient = new HttpClient();
+
+                var qnaMaker = new QnAMaker(new QnAMakerEndpoint
+                {
+                    KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
+                    EndpointKey = _configuration["QnAEndpointKey"],
+                    Host = _configuration["QnAEndpointHostName"]
+                },
+                null,
+                httpClient);
+
                 var options = new QnAMakerOptions { Top = 1 };
                 var results = await EchoBotQnA.GetAnswersAsync(turnContext, options);
+
                 if (results.Any())
                 {
                     await turnContext.SendActivityAsync(MessageFactory.Text("QnA Maker Returned: " + results.First().Answer), cancellationToken);
