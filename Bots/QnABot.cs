@@ -50,7 +50,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 var dialogTask = Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
 
-                IActivity replyActivity = MessageFactory.Text(dialogTask.FromResult.Result.ToString());
+                IActivity replyActivity = MessageFactory.Text(dialogTask.FromResult(0).Result.ToString());
                 
                 //OmnichannelBotClient.BridgeBotMessage(replyActivity);
                 //await turnContext.SendActivityAsync(replyActivity, cancellationToken);
