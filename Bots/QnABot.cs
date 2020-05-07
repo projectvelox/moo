@@ -57,7 +57,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             //string activity = turnContext.Activity.Text;
 
-            await turnContext.SendActivityAsync(MessageFactory.Text($"Echo: {turnContext.Activity.Text}"), cancellationToken);
+            //await turnContext.SendActivityAsync(MessageFactory.Text($"Echo: {turnContext.Activity.Text}"), cancellationToken);
             await AccessQnAMaker(turnContext, cancellationToken);
         }
 
@@ -95,10 +95,10 @@ namespace Microsoft.BotBuilderSamples.Bots
 
                 var dialogTask = Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
                 
-
-
                 IActivity replyActivity = MessageFactory.Text(dialogTask.ToString());
+
                 OmnichannelBotClient.BridgeBotMessage(replyActivity);
+                turnContext.SendActivityAsync(replyActivity, cancellationToken);
 
                 // Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
                 //await turnContext.SendActivityAsync(MessageFactory.Text(test.Result.Text), cancellationToken);
