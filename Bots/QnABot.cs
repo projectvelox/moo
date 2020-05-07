@@ -64,7 +64,9 @@ namespace Microsoft.BotBuilderSamples.Bots
 
                 // The actual call to the QnA Maker service.
                 var response = await qnaMaker.GetAnswersAsync(turnContext, options);
-                if (response != null && response.Length > 0)
+                await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
+
+                /*if (response != null && response.Length > 0)
                 {
                     //OmnichannelBotClient.BridgeBotMessage(response[0].Answer);
                     await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
@@ -72,7 +74,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 else
                 {
                     await turnContext.SendActivityAsync(MessageFactory.Text("No QnA Maker answers were found."), cancellationToken);
-                }
+                }*/
 
                 //var dialogTask = Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
                 //IActivity replyActivity = MessageFactory.Text(dialogTask.FromResult(0).Result.ToString());
