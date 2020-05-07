@@ -92,12 +92,12 @@ namespace Microsoft.BotBuilderSamples.Bots
                 //var options = new QnAMakerOptions { Top = 1 };
                 //string results = await qnaMaker.GetAnswersAsync(turnContext, options);
 
-                string dialogReply() {
-                    var dialogTask =  await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken).FromResult(0);
-                    return dialogTask;
-                }
 
-                IActivity replyActivity = MessageFactory.Text(dialogReply);
+                var dialogTask = await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+                
+
+
+                IActivity replyActivity = MessageFactory.Text(dialogTaskFromResult(0););
                 OmnichannelBotClient.BridgeBotMessage(replyActivity);
 
                 // Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
