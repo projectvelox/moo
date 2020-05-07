@@ -27,21 +27,12 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
 
-        public QnABot(ConversationState conversationState, UserState userState, T dialog, IConfiguration configuration)
+        public QnABot(ConversationState conversationState, UserState userState, T dialog)
         {
             ConversationState = conversationState;
             UserState = userState;
             Dialog = dialog;
-            Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
-
-        /* public QnaBot(QnAMakerEndpoint endpoint)
-        {
-            // connects to QnA Maker endpoint for each turn
-            EchoBotQnA = new QnAMaker(endpoint);
-        } */
 
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
@@ -55,7 +46,20 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-             await AccessQnAMaker(turnContext, cancellationToken);
+            try
+            {
+                var dialogTask = Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+
+                IActivity replyActivity = MessageFactory.Text(dialogTask.ToString());
+
+                OmnichannelBotClient.BridgeBotMessage(replyActivity);
+                await turnContext.SendActivityAsync(replyActivity, cancellationToken);
+            }
+
+            catch (Exception ex)
+            {
+                await turnContext.SendActivityAsync(MessageFactory.Text(ex.ToString()), cancellationToken);
+            }
         }
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
@@ -67,26 +71,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                     await turnContext.SendActivityAsync(MessageFactory.Text($"Hello and welcome!"), cancellationToken);
                     
                 }
-            }
-        }
-
-        private async Task AccessQnAMaker(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
-        {
-
-            try
-            {
-
-                var dialogTask = Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
-                
-                IActivity replyActivity = MessageFactory.Text(dialogTask.ToString());
-
-                OmnichannelBotClient.BridgeBotMessage(replyActivity);
-                await turnContext.SendActivityAsync(replyActivity, cancellationToken);
-                
-            }
-
-            catch (Exception ex) {
-                await turnContext.SendActivityAsync(MessageFactory.Text(ex.ToString()), cancellationToken);
             }
         }
     }
