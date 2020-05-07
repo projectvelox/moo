@@ -55,10 +55,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            //string activity = turnContext.Activity.Text;
-
-            //await turnContext.SendActivityAsync(MessageFactory.Text($"Echo: {turnContext.Activity.Text}"), cancellationToken);
-            await AccessQnAMaker(turnContext, cancellationToken);
+             await AccessQnAMaker(turnContext, cancellationToken);
         }
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
@@ -78,41 +75,14 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             try
             {
-                var httpClient = new HttpClient();
-
-                var qnaMaker = new QnAMaker(new QnAMakerEndpoint
-                {
-                    KnowledgeBaseId = Configuration.GetValue<string>($"QnAKnowledgebaseId"),
-                    EndpointKey = Configuration.GetValue<string>($"QnAAuthKey"),
-                    Host = Configuration.GetValue<string>($"QnAEndpointHostName")
-                },
-                null,
-                httpClient);
-
-                //var options = new QnAMakerOptions { Top = 1 };
-                //string results = await qnaMaker.GetAnswersAsync(turnContext, options);
-
 
                 var dialogTask = Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
                 
                 IActivity replyActivity = MessageFactory.Text(dialogTask.ToString());
 
                 OmnichannelBotClient.BridgeBotMessage(replyActivity);
-                turnContext.SendActivityAsync(replyActivity, cancellationToken);
-
-                // Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
-                //await turnContext.SendActivityAsync(MessageFactory.Text(test.Result.Text), cancellationToken);
-
-                /* if (results.Any())
-                {
-                    string test = await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
-                    //await turnContext.SendActivityAsync(MessageFactory.Text("QnA Maker Returned: " + results.First().Answer), cancellationToken);
-                    await turnContext.SendActivityAsync(MessageFactory.Text(test), cancellationToken);
-                }
-                else
-                {
-                    await turnContext.SendActivityAsync(MessageFactory.Text("Sorry, could not find an answer in the Q and A system."), cancellationToken);
-                } */
+                await turnContext.SendActivityAsync(replyActivity, cancellationToken);
+                
             }
 
             catch (Exception ex) {
