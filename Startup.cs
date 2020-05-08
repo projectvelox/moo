@@ -6,11 +6,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.BotFramework;
+using Microsoft.Bot.Connector.Authentication;
+
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.BotBuilderSamples.Bots;
 using Microsoft.BotBuilderSamples.Dialog;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 
 
 namespace Microsoft.BotBuilderSamples
@@ -48,7 +53,7 @@ namespace Microsoft.BotBuilderSamples
             services.AddSingleton<RootDialog>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, QnABot<RootDialog>>();
+            //services.AddTransient<IBot, QnABot<RootDialog>>();
 
 
             /* services.AddSingleton(new QnAMakerEndpoint
@@ -57,6 +62,20 @@ namespace Microsoft.BotBuilderSamples
                 EndpointKey = Configuration.GetValue<string>($"QnAAuthKey"),
                 Host = Configuration.GetValue<string>($"QnAEndpointHostName")
             }); */
+
+            services.AddControllers().AddNewtonsoftJson();
+
+            // Add the HttpClientFactory to be used for the QnAMaker calls.
+            services.AddHttpClient();
+
+            // Create the credential provider to be used with the Bot Framework Adapter.
+            services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+
+            // Create the Bot Framework Adapter with error handling enabled. 
+            services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
+
+            // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
+            services.AddTransient<IBot, QnABot>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,7 +90,15 @@ namespace Microsoft.BotBuilderSamples
                 app.UseHsts();
             }
 
-            app.UseDefaultFiles();
+            app.UseDefaultFiles()
+                .UseStaticFiles()
+                .UseRouting()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                });
+
             app.UseStaticFiles();
 
             app.UseWebSockets();
