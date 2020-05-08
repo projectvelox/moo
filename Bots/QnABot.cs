@@ -16,6 +16,7 @@ namespace Microsoft.BotBuilderSamples
 {
     public class QnABot : ActivityHandler
     {
+<<<<<<< HEAD
         protected readonly BotState ConversationState;
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
@@ -35,6 +36,19 @@ namespace Microsoft.BotBuilderSamples
             _httpClientFactory = httpClientFactory;
         }
 
+=======
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<QnABot> _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        public QnABot(IConfiguration configuration, ILogger<QnABot> logger, IHttpClientFactory httpClientFactory)
+        {
+            _configuration = configuration;
+            _logger = logger;
+            _httpClientFactory = httpClientFactory;
+        }
+
+>>>>>>> parent of aa6ee4c... Complete revamp
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             try
@@ -50,7 +64,11 @@ namespace Microsoft.BotBuilderSamples
 
 =======
                 var httpClient = _httpClientFactory.CreateClient();
+<<<<<<< HEAD
 >>>>>>> parent of d51d80a... DUDE
+=======
+
+>>>>>>> parent of aa6ee4c... Complete revamp
                 var qnaMaker = new QnAMaker(new QnAMakerEndpoint
                 {
                     KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
@@ -67,12 +85,16 @@ namespace Microsoft.BotBuilderSamples
                 // The actual call to the QnA Maker service.
                 var response = await qnaMaker.GetAnswersAsync(turnContext, options);
 <<<<<<< HEAD
+<<<<<<< HEAD
                 if (response != null && response.Length > 0)
 =======
                 await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
 
                 /*if (response != null && response.Length > 0)
 >>>>>>> parent of d51d80a... DUDE
+=======
+                if (response != null && response.Length > 0)
+>>>>>>> parent of aa6ee4c... Complete revamp
                 {
                     await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
                 }
@@ -86,6 +108,7 @@ namespace Microsoft.BotBuilderSamples
                 await turnContext.SendActivityAsync(MessageFactory.Text(ex.ToString()), cancellationToken);
             }
         }
+<<<<<<< HEAD
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
@@ -99,5 +122,7 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
+=======
+>>>>>>> parent of aa6ee4c... Complete revamp
     }
 }
