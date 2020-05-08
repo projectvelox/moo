@@ -47,6 +47,8 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 OmnichannelBotClient.BridgeBotMessage(turnContext.Activity);
                 await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+                await turnContext.SendActivityAsync(MessageFactory.Text($"Hello and welcome!"), cancellationToken);
+
             }
 
             catch (Exception ex)
@@ -61,6 +63,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
+                    OmnichannelBotClient.BridgeBotMessage(turnContext.Activity);
                     await turnContext.SendActivityAsync(MessageFactory.Text($"Hello and welcome!"), cancellationToken);
                 }
             }
