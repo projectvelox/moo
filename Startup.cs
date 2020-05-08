@@ -8,7 +8,6 @@ using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.BotBuilderSamples.Bots;
