@@ -48,18 +48,18 @@ namespace Microsoft.BotBuilderSamples.Bots
             try
             {
                 var httpClient = _httpClientFactory.CreateClient();
-
+                var options = new QnAMakerOptions { Top = 1 };
                 var qnaMaker = new QnAMaker(new QnAMakerEndpoint
                 {
                     KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
                     EndpointKey = _configuration["QnAEndpointKey"],
                     Host = _configuration["QnAEndpointHostName"]
                 },
-                null,
+                options,
                 httpClient);
 
 
-                var options = new QnAMakerOptions { Top = 1 };
+               
 
                 // The actual call to the QnA Maker service.
                 var response = await qnaMaker.GetAnswersAsync(turnContext, options);
