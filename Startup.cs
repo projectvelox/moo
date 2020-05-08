@@ -87,7 +87,14 @@ namespace Microsoft.BotBuilderSamples
                 app.UseHsts();
             }
 
-            app.UseDefaultFiles();
+            app.UseDefaultFiles()
+                .UseStaticFiles()
+                .UseRouting()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                });
             app.UseStaticFiles();
 
             app.UseWebSockets();
