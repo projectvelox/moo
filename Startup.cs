@@ -51,7 +51,7 @@ namespace Microsoft.BotBuilderSamples
             //services.AddControllers().AddNewtonsoftJson();
 
             // Add the HttpClientFactory to be used for the QnAMaker calls.
-            services.AddHttpClient();
+            //services.AddHttpClient();
 
             // Create the credential provider to be used with the Bot Framework Adapter.
             //services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
