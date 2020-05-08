@@ -76,7 +76,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -87,15 +87,7 @@ namespace Microsoft.BotBuilderSamples
                 app.UseHsts();
             }
 
-            app.UseDefaultFiles()
-                .UseStaticFiles()
-                .UseRouting()
-                .UseAuthorization()
-                .UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllers();
-                });
-
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseWebSockets();
