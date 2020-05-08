@@ -24,21 +24,14 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected readonly BotState ConversationState;
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
+        private readonly IConfiguration _configuration;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         public QnABot(ConversationState conversationState, UserState userState, T dialog)
         {
             ConversationState = conversationState;
             UserState = userState;
             Dialog = dialog;
-        }
-
-        public QnAMaker EchoBotQnA { get; private set; }
-
-
-        public QnABot(QnAMakerEndpoint endpoint)
-        {
-            // connects to QnA Maker endpoint for each turn
-            EchoBotQnA = new QnAMaker(endpoint);
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
@@ -54,11 +47,22 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             try
             {
+                var httpClient = _httpClientFactory.CreateClient();
+
+                var qnaMaker = new QnAMaker(new QnAMakerEndpoint
+                {
+                    KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
+                    EndpointKey = _configuration["QnAEndpointKey"],
+                    Host = _configuration["QnAEndpointHostName"]
+                },
+                null,
+                httpClient);
+
 
                 var options = new QnAMakerOptions { Top = 1 };
 
                 // The actual call to the QnA Maker service.
-                var response = await EchoBotQnA.GetAnswersAsync(turnContext, options);
+                var response = await qnaMaker.GetAnswersAsync(turnContext, options);
                 if (response != null && response.Length > 0)
                 {
                     OmnichannelBotClient.BridgeBotMessage(turnContext.Activity);

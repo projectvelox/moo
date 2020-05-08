@@ -48,12 +48,7 @@ namespace Microsoft.BotBuilderSamples
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, QnABot<RootDialog>>();
-            services.AddSingleton(new QnAMakerEndpoint
-            {
-                KnowledgeBaseId = Configuration.GetValue<string>($"QnAKnowledgebaseId"),
-                EndpointKey = Configuration.GetValue<string>($"QnAAuthKey"),
-                Host = Configuration.GetValue<string>($"QnAEndpointHostName")
-            });
+
 
             //services.AddControllers().AddNewtonsoftJson();
 
