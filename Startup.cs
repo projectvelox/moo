@@ -48,13 +48,13 @@ namespace Microsoft.BotBuilderSamples
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, QnABot<RootDialog>>();
 
-            services.AddControllers().AddNewtonsoftJson();
+            //services.AddControllers().AddNewtonsoftJson();
 
             // Add the HttpClientFactory to be used for the QnAMaker calls.
             services.AddHttpClient();
 
             // Create the credential provider to be used with the Bot Framework Adapter.
-            services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+            //services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
         }
 
