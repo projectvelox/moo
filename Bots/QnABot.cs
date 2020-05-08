@@ -23,13 +23,20 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected readonly BotState ConversationState;
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
-
+        private readonly IConfiguration _configuration;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         public QnABot(ConversationState conversationState, UserState userState, T dialog)
         {
             ConversationState = conversationState;
             UserState = userState;
             Dialog = dialog;
+        }
+
+        public QnABot(IConfiguration configuration, IHttpClientFactory httpClientFactory)
+        {
+            _configuration = configuration;
+            _httpClientFactory = httpClientFactory;
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
