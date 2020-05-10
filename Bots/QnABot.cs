@@ -26,9 +26,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
 
-        private const string endpointVar = _configuration["QnAEndpointHostName"];
-        private const string endpointKeyVar = _configuration["QnAEndpointKey"];
-        private const string kbIdVar = _configuration["QnAKnowledgebaseId"];
+    
 
         public QnABot(ConversationState conversationState, UserState userState, T dialog)
         {
@@ -55,6 +53,10 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             try
             {
+                endpointVar = _configuration["QnAEndpointHostName"];
+                endpointKeyVar = _configuration["QnAEndpointKey"];
+                kbIdVar = _configuration["QnAKnowledgebaseId"];
+
                 var uri = endpointVar + "/qnamaker/knowledgebases/" + kbIdVar + "/generateAnswer";
 
                 // JSON format for passing question to service
