@@ -48,7 +48,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             try
             {
-                var endpoint = _configuration["QnAEndpointHostName"];
+                var endpoint = _configuration.GetSection("QnAEndpointHostName").Value;
                 var endpointKey = _configuration["QnAEndpointKey"];
                 var kbId = _configuration["QnAKnowledgebaseId"];
 
