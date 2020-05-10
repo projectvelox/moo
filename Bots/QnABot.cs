@@ -57,11 +57,10 @@ namespace Microsoft.BotBuilderSamples.Bots
                 // JSON format for passing question to service
                 string question = @"{'question': '" + turnContext.Activity.Text + "?','top': 3}";
 
-                await turnContext.SendActivityAsync(MessageFactory.Text(endpointVar), cancellationToken);
 
                 // Create http client
-                //using (var client = new HttpClient())
-                /*using (var request = new HttpRequestMessage())
+                using (var client = new HttpClient())
+                using (var request = new HttpRequestMessage())
                 {
                     // POST method
                     request.Method = HttpMethod.Post;
@@ -81,7 +80,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
                     // Output JSON response
                     await turnContext.SendActivityAsync(MessageFactory.Text(jsonResponse), cancellationToken);
-                }*/
+                }
             }
 
             catch (Exception ex)
