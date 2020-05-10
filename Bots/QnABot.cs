@@ -61,7 +61,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 // JSON format for passing question to service
                 string question = @"{'question': '" + turnContext.Activity.Text + "?','top': 3}";
 
-                await turnContext.SendActivityAsync(MessageFactory.Text(uri), cancellationToken);
+                await turnContext.SendActivityAsync(MessageFactory.Text(endpointVar), cancellationToken);
 
                 // Create http client
                 //using (var client = new HttpClient())
