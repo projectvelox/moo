@@ -53,9 +53,9 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             try
             {
-                endpointVar = _configuration["QnAEndpointHostName"];
-                endpointKeyVar = _configuration["QnAEndpointKey"];
-                kbIdVar = _configuration["QnAKnowledgebaseId"];
+                var endpointVar = _configuration["QnAEndpointHostName"];
+                var endpointKeyVar = _configuration["QnAEndpointKey"];
+                var kbIdVar = _configuration["QnAKnowledgebaseId"];
 
                 var uri = endpointVar + "/qnamaker/knowledgebases/" + kbIdVar + "/generateAnswer";
 
