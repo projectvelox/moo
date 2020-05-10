@@ -33,12 +33,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             UserState = userState;
             Dialog = dialog;
         }
-
-        public QnABot(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
+        
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             await base.OnTurnAsync(turnContext, cancellationToken);
@@ -48,13 +43,13 @@ namespace Microsoft.BotBuilderSamples.Bots
             await UserState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
 
-        protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken, IConfiguration configuration)
         {
             try
             {
-                var endpointVar = _configuration["QnAEndpointHostName"];
-                var endpointKeyVar = _configuration["QnAEndpointKey"];
-                var kbIdVar = _configuration["QnAKnowledgebaseId"];
+                var endpointVar = configuration["QnAEndpointHostName"];
+                var endpointKeyVar = configuration["QnAEndpointKey"];
+                var kbIdVar = configuration["QnAKnowledgebaseId"];
 
                 var uri = endpointVar + "/qnamaker/knowledgebases/" + kbIdVar + "/generateAnswer";
 
