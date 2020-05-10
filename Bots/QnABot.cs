@@ -63,11 +63,14 @@ namespace Microsoft.BotBuilderSamples.Bots
                 using (var client = new HttpClient())
                 using (var request = new HttpRequestMessage())
                 {
+                    
                     // POST method
                     request.Method = HttpMethod.Post;
 
                     // Add host + service to get full URI
-                    request.RequestUri = new Uri(url);
+                    Uri uri = new Uri(url);
+
+                    request.RequestUri = uri;
 
                     // set question
                     request.Content = new StringContent(question, Encoding.UTF8, "application/json");
