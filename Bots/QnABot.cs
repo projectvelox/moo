@@ -68,10 +68,12 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var response = await qnaMaker.GetAnswersAsync(turnContext, options);
                 if (response != null && response.Length > 0)
                 {
+                    OmnichannelBotClient.BridgeBotMessage(response[0].Answer);
                     await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
                 }
                 else
                 {
+                    OmnichannelBotClient.BridgeBotMessage("No QnA Maker answers were found.");
                     await turnContext.SendActivityAsync(MessageFactory.Text("No QnA Maker answers were found."), cancellationToken);
                 }
 
