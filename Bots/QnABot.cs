@@ -19,11 +19,7 @@ using EchoBot.OmniChannel;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
-    public Startup(IConfiguration configuration)
-    {
-        Configuration = configuration;
-    }
-
+   
     public class QnABot<T> : ActivityHandler where T : Microsoft.Bot.Builder.Dialogs.Dialog
     {
         protected readonly BotState ConversationState;
@@ -34,15 +30,16 @@ namespace Microsoft.BotBuilderSamples.Bots
         private const string endpointKeyVar = _configuration["QnAEndpointKey"];
         private const string kbIdVar = _configuration["QnAKnowledgebaseId"];
 
-        private static readonly string endpoint = Environment.GetEnvironmentVariable(endpointVar);
-        private static readonly string endpointKey = Environment.GetEnvironmentVariable(endpointKeyVar);
-        private static readonly string kbId = Environment.GetEnvironmentVariable(kbIdVar);
-
         public QnABot(ConversationState conversationState, UserState userState, T dialog)
         {
             ConversationState = conversationState;
             UserState = userState;
             Dialog = dialog;
+        }
+
+        public QnABot(IConfiguration configuration)
+        {
+            _configuration = configuration;
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
