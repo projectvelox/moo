@@ -76,7 +76,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 }
                 else
                 {
-                    OmnichannelBotClient.BridgeBotMessage(MessageFactory("No QnA Maker answers were found."));
+                    OmnichannelBotClient.BridgeBotMessage(MessageFactory.Text("No QnA Maker answers were found."));
                     await turnContext.SendActivityAsync(MessageFactory.Text("No QnA Maker answers were found."), cancellationToken);
                 }
 
