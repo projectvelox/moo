@@ -83,6 +83,8 @@ namespace Microsoft.BotBuilderSamples.Bots
 
                     // Output JSON response
                     await turnContext.SendActivityAsync(MessageFactory.Text(uri), cancellationToken);
+                    await turnContext.SendActivityAsync(MessageFactory.Text(question), cancellationToken);
+                    await turnContext.SendActivityAsync(MessageFactory.Text(jsonResponse), cancellationToken);
                 }
             }
 
