@@ -53,6 +53,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var kbId = _configuration["QnAKnowledgebaseId"];
 
                 string url = endpoint + "/qnamaker/v4.0/knowledgebases/" + kbId + "/generateAnswer";
+                Uri myUri = new Uri(url);
 
                 // JSON format for passing question to service
                 string question = @"{'question': '" + turnContext.Activity.Text + "?','top': 3}";
