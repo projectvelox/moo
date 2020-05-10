@@ -52,7 +52,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var endpointKey = _configuration["QnAEndpointKey"];
                 var kbId = _configuration["QnAKnowledgebaseId"];
 
-                string url = endpoint + "/qnamaker/v4.0/knowledgebases/" + kbId + "/generateAnswer";
+                string uri = endpoint + "/qnamaker/v4.0/knowledgebases/" + kbId + "/generateAnswer";
                 //Uri myUri = new Uri(url);
 
                 // JSON format for passing question to service
@@ -69,7 +69,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                     request.Method = HttpMethod.Post;
 
                     // Add host + service to get full URI
-                    request.RequestUri = new Uri(url);
+                    request.RequestUri = new Uri(uri);
 
                     // set question
                     request.Content = new StringContent(question, Encoding.UTF8, "application/json");
@@ -82,7 +82,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                     var jsonResponse = response.Content.ReadAsStringAsync().Result;
 
                     // Output JSON response
-                    await turnContext.SendActivityAsync(MessageFactory.Text(url), cancellationToken);
+                    await turnContext.SendActivityAsync(MessageFactory.Text(uri), cancellationToken);
                 }
             }
 
