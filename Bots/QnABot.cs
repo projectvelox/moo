@@ -56,14 +56,13 @@ namespace Microsoft.BotBuilderSamples.Bots
                 //Uri myUri = new Uri(url);
 
                 // JSON format for passing question to service
-                string question = @"{'question': '" + turnContext.Activity.Text + "?','top': 3}";
+                string question = @"{'question': '" + turnContext.Activity.Text + "','top': 1}";
 
                 //await turnContext.SendActivityAsync(MessageFactory.Text(endpoint), cancellationToken);
 
                 // Create http client
-                using (var client = new HttpClient())
-                using (var request = new HttpRequestMessage())
-                {
+                var client = new HttpClient();
+                var request = new HttpRequestMessage();
                     
                     // POST method
                     request.Method = HttpMethod.Post;
@@ -85,7 +84,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                     await turnContext.SendActivityAsync(MessageFactory.Text(uri), cancellationToken);
                     await turnContext.SendActivityAsync(MessageFactory.Text(question), cancellationToken);
                     await turnContext.SendActivityAsync(MessageFactory.Text(jsonResponse), cancellationToken);
-                }
+                
             }
 
             catch (Exception ex)
