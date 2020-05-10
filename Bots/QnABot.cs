@@ -48,7 +48,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             try
             {
-                var endpoint = _configuration.GetSection("QnAEndpointHostName").Value;
+                var endpoint = GetHostname(_configuration["QnAEndpointHostName"]);
                 var endpointKey = _configuration["QnAEndpointKey"];
                 var kbId = _configuration["QnAKnowledgebaseId"];
 
@@ -104,6 +104,21 @@ namespace Microsoft.BotBuilderSamples.Bots
                     await turnContext.SendActivityAsync(MessageFactory.Text($"Hello and welcome!"), cancellationToken);
                 }
             }
+        }
+
+        private static string GetHostname(string hostname)
+        {
+            if (!hostname.StartsWith("https://"))
+            {
+                hostname = string.Concat("https://", hostname);
+            }
+
+            if (!hostname.EndsWith("/qnamaker"))
+            {
+                hostname = string.Concat(hostname, "/qnamaker");
+            }
+
+            return hostname;
         }
     }
 }
