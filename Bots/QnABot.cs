@@ -69,7 +69,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                     request.Method = HttpMethod.Post;
 
                     // Add host + service to get full URI
-                    request.RequestUri = new Uri(uri);
+                    request.RequestUri = new Uri(url);
 
                     // set question
                     request.Content = new StringContent(question, Encoding.UTF8, "application/json");
