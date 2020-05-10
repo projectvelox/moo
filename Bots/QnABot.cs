@@ -82,7 +82,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                     var jsonResponse = response.Content.ReadAsStringAsync().Result;
 
                     // Output JSON response
-                    await turnContext.SendActivityAsync(MessageFactory.Text(jsonResponse), cancellationToken);
+                    await turnContext.SendActivityAsync(MessageFactory.Text(url), cancellationToken);
                 }
             }
 
