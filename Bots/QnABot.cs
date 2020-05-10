@@ -48,19 +48,20 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             try
             {
-                var endpoint = _configuration["QnAEndpointHostName"];
-                var endpointKey = _configuration["QnAEndpointKey"];
-                var kbId = _configuration["QnAKnowledgebaseId"];
+                var endpointVar = _configuration["QnAEndpointHostName"];
+                var endpointKeyVar = _configuration["QnAEndpointKey"];
+                var kbIdVar = _configuration["QnAKnowledgebaseId"];
 
-                var uri = endpoint + "/qnamaker/knowledgebases/" + kbId + "/generateAnswer";
+                var uri = endpointVar + "/qnamaker/knowledgebases/" + kbIdVar + "/generateAnswer";
 
                 // JSON format for passing question to service
                 string question = @"{'question': '" + turnContext.Activity.Text + "?','top': 3}";
 
+                await turnContext.SendActivityAsync(MessageFactory.Text(uri), cancellationToken);
 
                 // Create http client
-                using (var client = new HttpClient())
-                using (var request = new HttpRequestMessage())
+                //using (var client = new HttpClient())
+                /*using (var request = new HttpRequestMessage())
                 {
                     // POST method
                     request.Method = HttpMethod.Post;
@@ -80,7 +81,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
                     // Output JSON response
                     await turnContext.SendActivityAsync(MessageFactory.Text(jsonResponse), cancellationToken);
-                }
+                }*/
             }
 
             catch (Exception ex)
