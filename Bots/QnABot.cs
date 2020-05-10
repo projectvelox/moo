@@ -34,6 +34,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             UserState = userState;
             Dialog = dialog;
             _configuration = configuration;
+            _httpClientFactory = httpClientFactory;
         }
         
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
