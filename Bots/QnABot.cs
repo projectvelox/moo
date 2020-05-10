@@ -19,15 +19,20 @@ using EchoBot.OmniChannel;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
+    public Startup(IConfiguration configuration)
+    {
+        Configuration = configuration;
+    }
+
     public class QnABot<T> : ActivityHandler where T : Microsoft.Bot.Builder.Dialogs.Dialog
     {
         protected readonly BotState ConversationState;
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
 
-        private const string endpointVar = "mooqnakb.azurewebsites.net";
-        private const string endpointKeyVar = "68bddf3c-07d6-47cd-91a9-d49fc575ee7b";
-        private const string kbIdVar = "bbb9cb8b-bef5-44b3-b3f0-c4fe30a4e63d";
+        private const string endpointVar = _configuration["QnAEndpointHostName"];
+        private const string endpointKeyVar = _configuration["QnAEndpointKey"];
+        private const string kbIdVar = _configuration["QnAKnowledgebaseId"];
 
         private static readonly string endpoint = Environment.GetEnvironmentVariable(endpointVar);
         private static readonly string endpointKey = Environment.GetEnvironmentVariable(endpointKeyVar);
