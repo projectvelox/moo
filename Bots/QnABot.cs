@@ -25,6 +25,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected readonly BotState ConversationState;
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
+
         private readonly IConfiguration _configuration;
         private readonly IHttpClientFactory _httpClientFactory;
 
@@ -33,6 +34,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             ConversationState = conversationState;
             UserState = userState;
             Dialog = dialog;
+
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
         }
@@ -62,6 +64,8 @@ namespace Microsoft.BotBuilderSamples.Bots
                 httpClient);
 
                 var options = new QnAMakerOptions { Top = 1 };
+
+                await turnContext.SendActivityAsync(MessageFactory.Text(GetHostname(_configuration["QnAEndpointHostName"])), cancellationToken);
 
                 // The actual call to the QnA Maker service.
                 var response = await qnaMaker.GetAnswersAsync(turnContext, options);
