@@ -24,8 +24,14 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected readonly BotState ConversationState;
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
-        private readonly IConfiguration _configuration;
-        private readonly IHttpClientFactory _httpClientFactory;
+
+        private const string endpointVar = "mooqnakb.azurewebsites.net";
+        private const string endpointKeyVar = "68bddf3c-07d6-47cd-91a9-d49fc575ee7b";
+        private const string kbIdVar = "bbb9cb8b-bef5-44b3-b3f0-c4fe30a4e63d";
+
+        private static readonly string endpoint = Environment.GetEnvironmentVariable(endpointVar);
+        private static readonly string endpointKey = Environment.GetEnvironmentVariable(endpointKeyVar);
+        private static readonly string kbId = Environment.GetEnvironmentVariable(kbIdVar);
 
         public QnABot(ConversationState conversationState, UserState userState, T dialog)
         {
@@ -47,30 +53,33 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             try
             {
-                var httpClient = _httpClientFactory.CreateClient();
-                var options = new QnAMakerOptions { Top = 1 };
-                var qnaMaker = new QnAMaker(new QnAMakerEndpoint
-                {
-                    KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
-                    EndpointKey = _configuration["QnAEndpointKey"],
-                    Host = _configuration["QnAEndpointHostName"]
-                },
-                options,
-                httpClient);
+                var uri = endpoint + "/qnamaker/v4.0/knowledgebases/" + kbId + "/generateAnswer";
 
+                // JSON format for passing question to service
+                string question = @"{'question': '" + turnContext.Activity.Text + "?','top': 3}";
 
-               
+                // Create http client
+                using (var client = new HttpClient())
+                using (var request = new HttpRequestMessage())
+                {
+                    // POST method
+                    request.Method = HttpMethod.Post;
 
-                // The actual call to the QnA Maker service.
-                var response = await qnaMaker.GetAnswersAsync(turnContext, options);
-                if (response != null && response.Length > 0)
-                {
-                    OmnichannelBotClient.BridgeBotMessage(turnContext.Activity);
-                    await turnContext.SendActivityAsync(MessageFactory.Text(response[0].Answer), cancellationToken);
-                }
-                else
-                {
-                    await turnContext.SendActivityAsync(MessageFactory.Text("No QnA Maker answers were found."), cancellationToken);
+                    // Add host + service to get full URI
+                    request.RequestUri = new Uri(uri);
+
+                    // set question
+                    request.Content = new StringContent(question, Encoding.UTF8, "application/json");
+
+                    // set authorization
+                    request.Headers.Add("Authorization", "EndpointKey " + endpointKey);
+
+                    // Send request to Azure service, get response
+                    var response = client.SendAsync(request).Result;
+                    var jsonResponse = response.Content.ReadAsStringAsync().Result;
+
+                    // Output JSON response
+                    await turnContext.SendActivityAsync(MessageFactory.Text(jsonResponse), cancellationToken);
                 }
             }
 
