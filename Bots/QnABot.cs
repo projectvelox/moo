@@ -62,23 +62,30 @@ namespace Microsoft.BotBuilderSamples.Bots
                 httpClient);
 
                 var options = new QnAMakerOptions { Top = 1 };
-
-
+                
                 // The actual call to the QnA Maker service.
                 var response = await qnaMaker.GetAnswersAsync(turnContext, options);
 
                 IActivity replyActivity = MessageFactory.Text($"{response[0].Answer}");
 
-                if (response != null && response.Length > 0)
+                // Replace with your own condition for bot escalation
+                if (turnContext.Activity.Text.Equals("escalate", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    OmnichannelBotClient.BridgeBotMessage(replyActivity);
-                    await turnContext.SendActivityAsync(replyActivity, cancellationToken);
+                    Dictionary<string, object> contextVars = new Dictionary<string, object>() { { "BotHandoffTopic", "CreditCard" } };
+                    OmnichannelBotClient.AddEscalationContext(replyActivity, contextVars);
                 }
+                // Replace with your own condition for bot end conversation
+                else if (turnContext.Activity.Text.Equals("endconversation", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    OmnichannelBotClient.AddEndConversationContext(replyActivity);
+                }
+                // Call method BridgeBotMessage for every response that needs to be delivered to the customer.
                 else
                 {
-                    OmnichannelBotClient.BridgeBotMessage(MessageFactory.Text("No QnA Maker answers were found."));
-                    await turnContext.SendActivityAsync(MessageFactory.Text("No QnA Maker answers were found."), cancellationToken);
+                    OmnichannelBotClient.BridgeBotMessage(replyActivity);
                 }
+
+                await turnContext.SendActivityAsync(replyActivity, cancellationToken);
 
             }
 
