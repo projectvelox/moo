@@ -1,3 +1,3 @@
 nuget restore
-msbuild QnABot.sln -p:DeployOnBuild=true -p:PublishProfile=.\mooqnakb-bot-Web-Deploy.pubxml -p:Password=S8L4Rhyl06aoHlpQKAAuCriiMcCoXuseyz0xRGvYpQsfwQes7vrfGLtgLrlY
+msbuild QnABot.sln -p:DeployOnBuild=true -p:PublishProfile=.\ktimooqnabot-Web-Deploy.pubxml -p:Password=wHpqdbQ4xecg1orZ6i6jAb6Khws8BMdg0Rz1JFFNATdjL9bQsuasE6syEaWi
 
