@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\KT-JoshuaOducado\\Desktop\\Moo\\QnABot.csproj",
+      "projectUniqueName": "C:\\Users\\KT-JoshuaOducado\\Desktop\\ktimoo-qna\\QnABot.csproj",
       "projectName": "QnABot",
-      "projectPath": "C:\\Users\\KT-JoshuaOducado\\Desktop\\Moo\\QnABot.csproj",
+      "projectPath": "C:\\Users\\KT-JoshuaOducado\\Desktop\\ktimoo-qna\\QnABot.csproj",
       "packagesPath": "C:\\Users\\KT-JoshuaOducado\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\KT-JoshuaOducado\\Desktop\\Moo\\obj\\",
+      "outputPath": "C:\\Users\\KT-JoshuaOducado\\Desktop\\ktimoo-qna\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
